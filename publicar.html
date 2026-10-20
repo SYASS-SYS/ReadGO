@@ -1,149 +1,296 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
+
     <title>ReadGO</title>
+
+    <link rel="stylesheet" href="./css/styleI.css">
+    <link rel="stylesheet" href="./css/styleP.css">
 </head>
 
-<body>
+<body class="publicar-page">
 
-    <header>
-        <div class="logo">
-            <span><ion-icon name="book-outline"></ion-icon></span>
-            <div>
+    <header class="header">
+
+        <a href="./index.html" class="logo">
+            <ion-icon name="book-outline"></ion-icon>
+
+            <div class="logo-texto">
                 <h1>Read<span>GO</span></h1>
                 <p>Tus historias, en libros.</p>
             </div>
-        </div>
+        </a>
 
-        <input type="text" class="buscador" placeholder="Buscar libros, autores, géneros...">
+        <div class="busqueda">
+            <ion-icon name="search-outline"></ion-icon>
+
+            <input
+                type="search"
+                id="buscador"
+                placeholder="Buscar libros, autores, géneros..."
+            >
+        </div>
 
         <div class="usuario">
-            <ion-icon name="notifications-outline"></ion-icon>
-            <ion-icon name="person-outline"></ion-icon>
-            <ion-icon name="arrow-down-outline"></ion-icon>
+
+            <button class="icono-header" aria-label="Notificaciones">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <span class="notificacion"></span>
+            </button>
+
+            <button class="perfil" aria-label="Perfil de usuario">
+                <img
+                    src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=120&q=80"
+                    alt="Avatar del usuario"
+                >
+            </button>
+
+            <button class="icono-header" aria-label="Abrir perfil">
+                <ion-icon name="chevron-down-outline"></ion-icon>
+            </button>
+
         </div>
+
     </header>
 
-    <main>
+    <main class="layout">
+
         <aside class="menu">
-            <a href="#">
-                <ion-icon name="home-outline"></ion-icon>
-                <span>Inicio</span>
-            </a>
 
-            <a href="#" class="activo">
-                <ion-icon name="add-outline"></ion-icon>
-                <span>Publicar historia</span>
-            </a>
+            <nav class="navegacion">
 
-            <a href="#">
-                <ion-icon name="book-outline"></ion-icon>
-                <span>Mis libros</span>
-            </a>
+                <a href="./index.html">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </a>
 
-            <a href="#">
-                <ion-icon name="stats-chart-outline"></ion-icon>
-                <span>Estadísticas</span>
-            </a>
+                <a href="./publicar.html" class="activo">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <span>Publicar libro</span>
+                </a>
 
-            <a href="#">
-                <ion-icon name="cog-outline"></ion-icon>
-                <span>Configuración</span>
-            </a>
+                <a href="./mis-libros.html">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span>Mis libros</span>
+                </a>
+
+                <a href="./index.html#estadisticas">
+                    <ion-icon name="stats-chart-outline"></ion-icon>
+                    <span>Estadísticas</span>
+                </a>
+
+                <a href="./index.html#configuracion">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    <span>Configuración</span>
+                </a>
+
+            </nav>
 
             <div class="frase">
                 <div></div>
-                <p>"Tú puedes, no te quedes atrás."</p>
+                <p>
+                    “Las grandes historias también empiezan con una idea.”
+                </p>
             </div>
+
         </aside>
 
         <section class="contenido">
 
-            <div class="portada">
-                <label for="imagen" class="zona-subir" id="zonaSubir">
+            <div class="publicar-layout">
 
-                    <img id="vistaPrevia" alt="Portada del libro">
+                <section class="panel-portada">
 
-                    <div class="contenido-subir" id="contenidoSubir">
-                        <div class="icono-imagen">
-                            <ion-icon name="image-outline"></ion-icon>
-                            <b>+</b>
+                    <label for="portada" class="zona-portada" id="zonaPortada">
+
+                        <input
+                            type="file"
+                            id="portada"
+                            accept="image/png,image/jpeg"
+                            hidden
+                        >
+
+                        <div class="contenido-portada" id="contenidoPortada">
+
+                            <ion-icon
+                                name="images-outline"
+                                class="icono-imagen"
+                            ></ion-icon>
+
+                            <h2>Sube la portada de tu libro</h2>
+
+                            <p>
+                                Arrastra una imagen o haz clic para seleccionar
+                            </p>
+
+                            <small>
+                                Formatos permitidos: JPG, PNG
+                                <span>|</span>
+                                Tamaño recomendado: 1080 × 1600
+                            </small>
+
                         </div>
 
-                        <h2>Sube la portada de tu libro</h2>
-                        <p>Arrastra una imagen o haz clic para seleccionar</p>
-                        <small>Formatos permitidos: JPG, PNG y WEBP</small>
+                        <img
+                            src=""
+                            alt="Vista previa de la portada"
+                            id="vistaPortada"
+                            hidden
+                        >
+
+                    </label>
+
+                </section>
+
+                <section class="panel-formulario">
+
+                    <div class="titulo-formulario">
+
+                        <ion-icon name="create-outline"></ion-icon>
+
+                        <div>
+                            <h2>Publica tu libro</h2>
+                            <p>Comparte tu historia con el mundo</p>
+                        </div>
+
                     </div>
 
-                </label>
+                    <form id="formularioLibro">
 
-                <input
-                    type="file"
-                    id="imagen"
-                    accept="image/jpeg,image/png,image/webp"
-                    hidden
-                >
+                        <div class="campo">
+
+                            <label for="titulo">
+                                Título del libro
+                            </label>
+
+                            <input
+                                type="text"
+                                id="titulo"
+                                name="titulo"
+                                placeholder="Escribe el título de tu libro..."
+                                maxlength="120"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="campo campo-descripcion">
+
+                            <label for="descripcion">
+                                Descripción
+                            </label>
+
+                            <textarea
+                                id="descripcion"
+                                name="descripcion"
+                                placeholder="Cuéntanos de qué trata tu libro..."
+                                maxlength="2000"
+                                required
+                            ></textarea>
+
+                            <span class="contador" id="contador">
+                                0/2000
+                            </span>
+
+                        </div>
+
+                        <div class="campos-dobles">
+
+                            <div class="campo">
+
+                                <label for="categoria" class="label-icono">
+                                    <ion-icon name="layers-outline"></ion-icon>
+                                    Categoría
+                                </label>
+
+                                <select
+                                    id="categoria"
+                                    name="categoria"
+                                    required
+                                >
+                                    <option value="" disabled selected>
+                                        Selecciona una categoría
+                                    </option>
+
+                                    <option value="fantasia">Fantasía</option>
+                                    <option value="romance">Romance</option>
+                                    <option value="misterio">Misterio</option>
+                                    <option value="aventura">Aventura</option>
+                                    <option value="ciencia-ficcion">Ciencia ficción</option>
+                                    <option value="terror">Terror</option>
+                                    <option value="drama">Drama</option>
+                                    <option value="poesia">Poesía</option>
+                                    <option value="educacion">Educación</option>
+                                    <option value="otros">Otros</option>
+                                </select>
+
+                            </div>
+
+                            <div class="campo">
+
+                                <label for="precio" class="label-icono label-precio">
+                                    <ion-icon name="server-outline"></ion-icon>
+                                    Precio (opcional)
+                                </label>
+
+                                <div class="entrada-precio">
+
+                                    <input
+                                        type="number"
+                                        id="precio"
+                                        name="precio"
+                                        placeholder="Ej. 9500.00"
+                                        min="0"
+                                        step="0.01"
+                                    >
+
+                                    <span>COP</span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="boton-publicar">
+
+                            <ion-icon name="paper-plane-outline"></ion-icon>
+
+                            <span>Publicar libro</span>
+
+                        </button>
+
+                        <p
+                            class="mensaje"
+                            id="mensaje"
+                            role="status"
+                            aria-live="polite"
+                        ></p>
+
+                    </form>
+
+                </section>
+
             </div>
 
-            <form class="formulario" id="formularioLibro">
-
-                <h2>✎ Publica tu historia</h2>
-                <p class="subtitulo">Comparte tu historia con el mundo</p>
-
-                <label for="titulo">Título del libro</label>
-                <input
-                    type="text"
-                    id="titulo"
-                    placeholder="Escribe el título de tu libro..."
-                    required
-                >
-
-                <label for="descripcion">Descripción</label>
-                <textarea
-                    id="descripcion"
-                    maxlength="2000"
-                    placeholder="Cuéntanos de qué trata tu libro..."
-                    required
-                ></textarea>
-
-                <div class="contador" id="contador">0/2000</div>
-
-                <div class="fila">
-                    <div class="categoria">
-                        <label for="categoria">Categoría</label>
-
-                        <select id="categoria" required>
-                            <option value="">Selecciona una categoría</option>
-                            <option>Fantasía</option>
-                            <option>Terror</option>
-                            <option>Romance</option>
-                            <option>Aventura</option>
-                            <option>Misterio</option>
-                            <option>Ciencia ficción</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit">
-                    <ion-icon name="paper-plane-outline"></ion-icon>
-                    Publicar libro
-                </button>
-
-                <p id="mensaje"></p>
-
-            </form>
-
         </section>
+
     </main>
 
-    <script src="./js/js/script.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+    <script
+        type="module"
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js">
+    </script>
+
+    <script
+        nomodule
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js">
+    </script>
+
+    <script src="./js/publicar.js"></script>
 
 </body>
 </html>
