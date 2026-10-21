@@ -1,11 +1,325 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>ReadGO</title>
+    <link rel="stylesheet" href="./css/styleI.css">
 </head>
+
 <body>
-    
+
+    <header class="header">
+        <a href="#" class="logo">
+            <ion-icon name="book-outline"></ion-icon>
+            <div class="logo-texto">
+                <h1>Read<span>GO</span></h1>
+                <p>Tus historias, en libros.</p>
+            </div>
+        </a>
+
+        <div class="busqueda">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="search" id="buscador"
+                   placeholder="Buscar libros, autores, géneros...">
+        </div>
+
+        <div class="usuario">
+            <button class="icono-header" aria-label="Notificaciones">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <span class="notificacion"></span>
+            </button>
+
+            <button class="perfil" aria-label="Perfil de usuario">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=120&q=80"
+                     alt="Avatar del usuario">
+            </button>
+
+            <button class="icono-header" aria-label="Abrir perfil">
+                <ion-icon name="chevron-down-outline"></ion-icon>
+            </button>
+        </div>
+    </header>
+
+    <main class="layout">
+
+        <aside class="menu">
+            <nav class="navegacion">
+                <a href="#" class="activo">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </a>
+
+                <a href="./publicar.html">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <span>Publicar libro</span>
+                </a>
+
+                <a href="#destacados">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span>Mis libros</span>
+                </a>
+
+                <a href="#estadisticas">
+                    <ion-icon name="stats-chart-outline"></ion-icon>
+                    <span>Estadísticas</span>
+                </a>
+
+                <a href="#configuracion">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+
+            <div class="frase">
+                <p>“Las grandes historias también empiezan con una idea.”</p>
+                <div></div>
+            </div>
+        </aside>
+
+        <section class="contenido">
+
+            <div class="columna-principal">
+
+                <section class="hero">
+                    <div class="hero-fondo"></div>
+
+                    <div class="hero-contenido">
+                        <span class="etiqueta">
+                            ESCRIBE · PUBLICA · COMPARTE
+                        </span>
+
+                        <h2>
+                            Tu historia<br>
+                            merece <span>ser leída</span>
+                        </h2>
+
+                        <p>
+                            En ReadGO puedes publicar tus libros,
+                            compartir tus ideas y llegar a lectores
+                            de todo el mundo.
+                        </p>
+
+                        <a href="./publicar.html" class="boton">
+                            <ion-icon name="add-circle-outline"></ion-icon>
+                            Publicar libro
+                        </a>
+                    </div>
+
+                    <div class="hero-puntos">
+                        <span class="seleccionado"></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </section>
+
+                <section class="seccion" id="destacados">
+                    <div class="seccion-titulo">
+                        <h2>
+                            <ion-icon name="star-outline"></ion-icon>
+                            Libros destacados
+                        </h2>
+
+                        <a href="#lanzamientos">
+                            Ver todos
+                            <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </a>
+                    </div>
+
+                    <div class="libros-grid" id="listaLibros">
+
+                        <article class="libro" data-busqueda="el último reino luna varela fantasía">
+                            <div class="libro-portada fantasia">
+                                <span class="genero">Fantasía</span>
+                            </div>
+                            <div class="libro-info">
+                                <h3>El Último Reino</h3>
+                                <p>Luna Varela</p>
+                                <div class="libro-datos">
+                                    <span><ion-icon name="book-outline"></ion-icon> 32.4k</span>
+                                    <span><ion-icon name="star-outline"></ion-icon> 4.8</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="libro" data-busqueda="más allá del horizonte kael storm aventura">
+                            <div class="libro-portada aventura">
+                                <span class="genero">Aventura</span>
+                            </div>
+                            <div class="libro-info">
+                                <h3>Más Allá del Horizonte</h3>
+                                <p>Kael Storm</p>
+                                <div class="libro-datos">
+                                    <span><ion-icon name="book-outline"></ion-icon> 21.7k</span>
+                                    <span><ion-icon name="star-outline"></ion-icon> 4.6</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="libro" data-busqueda="la sombra de tokio ryo takahashi misterio">
+                            <div class="libro-portada misterio">
+                                <span class="genero">Misterio</span>
+                            </div>
+                            <div class="libro-info">
+                                <h3>La Sombra de Tokio</h3>
+                                <p>Ryo Takahashi</p>
+                                <div class="libro-datos">
+                                    <span><ion-icon name="book-outline"></ion-icon> 18.9k</span>
+                                    <span><ion-icon name="star-outline"></ion-icon> 4.5</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="libro" data-busqueda="lo que el viento se llevó nara soler romance">
+                            <div class="libro-portada romance">
+                                <span class="genero">Romance</span>
+                            </div>
+                            <div class="libro-info">
+                                <h3>Lo que el viento se llevó</h3>
+                                <p>Nara Soler</p>
+                                <div class="libro-datos">
+                                    <span><ion-icon name="book-outline"></ion-icon> 15.2k</span>
+                                    <span><ion-icon name="star-outline"></ion-icon> 4.7</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="libro" data-busqueda="fragmentos del mañana dante kross ciencia ficción">
+                            <div class="libro-portada ciencia">
+                                <span class="genero">Ciencia ficción</span>
+                            </div>
+                            <div class="libro-info">
+                                <h3>Fragmentos del Mañana</h3>
+                                <p>Dante Kross</p>
+                                <div class="libro-datos">
+                                    <span><ion-icon name="book-outline"></ion-icon> 12.8k</span>
+                                    <span><ion-icon name="star-outline"></ion-icon> 4.3</span>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <p class="sin-resultados" id="sinResultados" hidden>
+                        No se encontraron libros con esa búsqueda.
+                    </p>
+                </section>
+
+                <section class="seccion lanzamientos" id="lanzamientos">
+                    <div class="seccion-titulo">
+                        <h2>
+                            <ion-icon name="calendar-outline"></ion-icon>
+                            Nuevos lanzamientos
+                        </h2>
+
+                        <div class="controles">
+                            <button id="anterior" aria-label="Libros anteriores">
+                                <ion-icon name="chevron-back-outline"></ion-icon>
+                            </button>
+                            <button id="siguiente" aria-label="Más libros">
+                                <ion-icon name="chevron-forward-outline"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lanzamientos-lista" id="carrusel">
+                        <div class="lanzamiento lanzamiento-1" title="Sombras de medianoche"></div>
+                        <div class="lanzamiento lanzamiento-2" title="Ojos de oscuridad"></div>
+                        <div class="lanzamiento lanzamiento-3" title="El árbol olvidado"></div>
+                        <div class="lanzamiento lanzamiento-4" title="Reino de cenizas"></div>
+                        <div class="lanzamiento lanzamiento-5" title="La última viajera"></div>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="columna-derecha">
+
+                <section class="panel bienvenida">
+                    <h2>¡Hola!</h2>
+                    <p class="texto-secundario">Bienvenido de nuevo</p>
+
+                    <a href="#configuracion" class="usuario-perfil">
+                        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=160&q=80"
+                             alt="Avatar de usuario">
+
+                        <strong>Angel 困</strong>
+
+                        <ion-icon name="chevron-forward-outline"></ion-icon>
+                    </a>
+
+                    <a href="#configuracion" class="mi-cuenta">
+                        <ion-icon name="trophy-outline"></ion-icon>
+                        <span>Mi cuenta</span>
+                        <ion-icon name="chevron-forward-outline"></ion-icon>
+                    </a>
+                </section>
+
+                <section class="panel estadisticas" id="estadisticas">
+                    <h2>
+                        <ion-icon name="analytics-outline"></ion-icon>
+                        Tus estadísticas
+                    </h2>
+
+                    <div class="estadistica">
+                        <ion-icon name="book-outline"></ion-icon>
+                        <span>Libros publicados</span>
+                        <strong>0</strong>
+                    </div>
+
+                    <div class="estadistica">
+                        <ion-icon name="people-outline"></ion-icon>
+                        <span>Lectores</span>
+                        <strong>0</strong>
+                    </div>
+
+                    <div class="estadistica">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <span>Seguidores</span>
+                        <strong>0</strong>
+                    </div>
+
+                    <div class="estadistica">
+                        <ion-icon name="eye-outline"></ion-icon>
+                        <span>Total de vistas</span>
+                        <strong>0</strong>
+                    </div>
+                </section>
+
+                <section class="panel publicar-panel" id="publicar">
+                    <ion-icon class="icono-publicar" name="book-outline"></ion-icon>
+
+                    <h2>¿Listo para compartir tu historia?</h2>
+
+                    <p>
+                        Publica tu libro y forma parte de nuestra comunidad.
+                    </p>
+
+                    <a href="publicar.html" class="boton boton-ancho">
+                        Publicar ahora
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                </section>
+
+            </aside>
+
+        </section>
+    </main>
+
+    <footer id="configuracion" class="pie">
+        ReadGO · Tu mundo de historias.
+    </footer>
+
+    <script type="module"
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+
+    <script nomodule
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+
+
+    <script src="./js/index.js"></script>
+
 </body>
 </html>
