@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis libros | ReadGO</title>
+    <link rel="stylesheet" href="./css/styleI.css">
+    <link rel="stylesheet" href="./css/styleM.css">
+</head>
+
+<body class="mis-libros-page">
+    <header class="header">
+        <a href="./index.html" class="logo">
+            <ion-icon name="book-outline"></ion-icon>
+            <div class="logo-texto">
+                <h1>Read<span>GO</span></h1>
+                <p>Tus historias, en libros.</p>
+            </div>
+        </a>
+
+        <div class="busqueda">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="search" id="buscador" placeholder="Buscar en mis libros..." aria-label="Buscar en mis libros">
+        </div>
+
+        <div class="usuario">
+            <button class="icono-header" aria-label="Notificaciones">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <span class="notificacion"></span>
+            </button>
+            <button class="perfil" aria-label="Perfil de usuario">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=120&q=80"
+                     alt="Avatar del usuario">
+            </button>
+            <button class="icono-header" aria-label="Abrir perfil">
+                <ion-icon name="chevron-down-outline"></ion-icon>
+            </button>
+        </div>
+    </header>
+
+    <main class="layout">
+        <aside class="menu">
+            <nav class="navegacion">
+                <a href="./index.html">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </a>
+                <a href="./publicar.html">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <span>Publicar libro</span>
+                </a>
+                <a href="./mis-libros.html" class="activo" aria-current="page">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span>Mis libros</span>
+                </a>
+                <a href="./index.html#estadisticas">
+                    <ion-icon name="stats-chart-outline"></ion-icon>
+                    <span>Estadísticas</span>
+                </a>
+                <a href="./index.html#configuracion">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+
+            <div class="frase">
+                <p>“Las grandes historias también empiezan con una idea.”</p>
+                <div></div>
+            </div>
+        </aside>
+
+        <section class="contenido">
+            <div class="columna-principal">
+                <section class="mis-libros-hero">
+                    <span class="etiqueta">TU BIBLIOTECA DE AUTOR</span>
+                    <h2>Mis <span>libros</span></h2>
+                    <p>Administra y encuentra las historias que has compartido.</p>
+                    <a href="./publicar.html" class="boton">
+                        <ion-icon name="add-circle-outline"></ion-icon>
+                        Publicar libro
+                    </a>
+                </section>
+
+                <section class="seccion">
+                    <div class="seccion-titulo">
+                        <h2>
+                            <ion-icon name="library-outline"></ion-icon>
+                            Libros publicados
+                        </h2>
+                        <span id="cantidadLibros" class="cantidad-libros">0 libros</span>
+                    </div>
+
+                    <div class="libros-grid mis-libros-grid" id="listaMisLibros"></div>
+                    <div id="estadoLibros" class="estado-libros" role="status" aria-live="polite">
+                        Cargando tus libros...
+                    </div>
+                    <p class="sin-resultados" id="sinResultados" hidden>
+                        No se encontraron libros con esa búsqueda.
+                    </p>
+                </section>
+            </div>
+
+            <aside class="columna-derecha">
+                <section class="panel mis-libros-panel">
+                    <h2>Tu biblioteca</h2>
+                    <p class="texto-secundario">Tus publicaciones se guardan en este navegador.</p>
+                    <div class="resumen-libros">
+                        <ion-icon name="book-outline"></ion-icon>
+                        <span>Libros publicados</span>
+                        <strong id="resumenCantidad">0</strong>
+                    </div>
+                    <a href="./publicar.html" class="boton boton-ancho">
+                        <ion-icon name="create-outline"></ion-icon>
+                        Crear una historia
+                    </a>
+                </section>
+            </aside>
+        </section>
+    </main>
+
+    <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="./js/mis-libros.js"></script>
+</body>
+</html>

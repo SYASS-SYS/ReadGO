@@ -12,6 +12,18 @@ const mensaje = document.getElementById("mensaje");
 let archivoPortada = null;
 let urlPortada = null;
 
+function limpiarPortada() {
+    archivoPortada = null;
+    if (urlPortada) {
+        URL.revokeObjectURL(urlPortada);
+        urlPortada = null;
+    }
+
+    vistaPortada.removeAttribute("src");
+    vistaPortada.hidden = true;
+    contenidoPortada.hidden = false;
+}
+
 // Vista previa de la portada
 function mostrarPortada(archivo) {
     if (!archivo) return;
@@ -21,8 +33,11 @@ function mostrarPortada(archivo) {
         "image/png"
     ];
 
-    if (!formatosPermitidos.includes(archivo.type)) {
-        mensaje.textContent = "Selecciona una imagen JPG o PNG.";
+    if (!formatosPermitidos.includes(archivo.type) || archivo.size > 5 * 1024 * 1024) {
+        limpiarPortada();
+        mensaje.textContent = formatosPermitidos.includes(archivo.type)
+            ? "La imagen no puede superar los 5 MB."
+            : "Selecciona una imagen JPG o PNG.";
         mensaje.className = "mensaje error";
         inputPortada.value = "";
         return;
@@ -79,7 +94,10 @@ formulario.addEventListener("submit", function (evento) {
 
     const titulo = document.getElementById("titulo").value.trim();
     const textoDescripcion = descripcion.value.trim();
-    const categoria = document.getElementById("categoria").value;
+    const selectorCategoria = document.getElementById("categoria");
+    const categoria = selectorCategoria.value;
+    const precioValor = document.getElementById("precio").value;
+    const precio = precioValor === "" ? null : Number(precioValor);
 
     if (!archivoPortada) {
         mensaje.textContent = "Debes seleccionar la portada de tu libro.";
@@ -93,6 +111,30 @@ formulario.addEventListener("submit", function (evento) {
         return;
     }
 
-    mensaje.textContent = "¡Formulario validado! Para publicar el libro de forma permanente, debes conectar un servidor o una base de datos.";
-    mensaje.className = "mensaje exito";
+    if (precio !== null && (!Number.isFinite(precio) || precio < 0)) {
+        mensaje.textContent = "El precio debe ser un número válido mayor o igual a cero.";
+        mensaje.className = "mensaje error";
+        return;
+    }
+
+    mensaje.textContent = "Publicando tu libro...";
+    mensaje.className = "mensaje";
+
+    import("./almacen-libros.js")
+        .then(({ guardarLibro }) => guardarLibro({
+            titulo,
+            descripcion: textoDescripcion,
+            categoria: selectorCategoria.selectedOptions[0].textContent.trim(),
+            precio,
+            portada: archivoPortada,
+            fecha: Date.now()
+        }))
+        .then(() => {
+            window.location.href = "./mis-libros.html?publicado=1";
+        })
+        .catch((error) => {
+            console.error("No se pudo guardar el libro.", error);
+            mensaje.textContent = "No se pudo guardar el libro en este navegador. Inténtalo de nuevo.";
+            mensaje.className = "mensaje error";
+        });
 });

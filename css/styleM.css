@@ -1,0 +1,117 @@
+.mis-libros-hero {
+    padding: 30px;
+    border: 1px solid #37306c;
+    border-radius: 10px;
+    background: linear-gradient(100deg, #080916, #10102a 62%, #24105b);
+}
+
+.mis-libros-hero .etiqueta {
+    margin-bottom: 10px;
+}
+
+.mis-libros-hero h2 {
+    margin-bottom: 9px;
+    font-size: clamp(29px, 3vw, 42px);
+}
+
+.mis-libros-hero h2 span {
+    color: #a044ff;
+}
+
+.mis-libros-hero p {
+    margin-bottom: 20px;
+    color: #c4c9e5;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.cantidad-libros {
+    color: var(--texto-secundario);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.mis-libros-grid {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+}
+
+.mis-libro-portada img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mis-libro-portada::after {
+    z-index: 1;
+}
+
+.mis-libro-portada .genero {
+    z-index: 2;
+}
+
+.mis-libro-descripcion {
+    margin-top: 9px;
+    color: #a5b4e5;
+    font-size: 11px;
+    line-height: 1.5;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.estado-libros {
+    padding: 28px 20px;
+    border: 1px dashed #46316d;
+    border-radius: 10px;
+    color: var(--texto-secundario);
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.estado-libros a {
+    display: inline-block;
+    margin-top: 12px;
+    color: #b58aff;
+}
+
+.estado-libros.error {
+    border-color: #8b3945;
+    color: #ff9ba3;
+}
+
+.resumen-libros {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 60px;
+    margin: 20px 0;
+    padding: 10px 0;
+    border-top: 1px solid #25243a;
+    border-bottom: 1px solid #25243a;
+    color: #a5b4e5;
+    font-size: 13px;
+}
+
+.resumen-libros ion-icon {
+    color: #a34cff;
+    font-size: 24px;
+}
+
+.resumen-libros strong {
+    margin-left: auto;
+    color: #c5d0ff;
+}
+
+@media (max-width: 600px) {
+    .mis-libros-page .mis-libros-hero {
+        padding: 22px 18px;
+    }
+
+    .mis-libros-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
