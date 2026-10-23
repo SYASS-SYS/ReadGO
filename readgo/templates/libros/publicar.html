@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,15 +8,14 @@
 
     <title>ReadGO</title>
 
-    <link rel="stylesheet" href="./css/styleI.css">
-    <link rel="stylesheet" href="./css/styleP.css">
+    <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleP.css' %}">
 </head>
 
 <body class="publicar-page">
-
     <header class="header">
 
-        <a href="./index.html" class="logo">
+        <a href="{% url 'inicio' %}" class="logo">
             <ion-icon name="book-outline"></ion-icon>
 
             <div class="logo-texto">
@@ -55,66 +55,50 @@
         </div>
 
     </header>
-
     <main class="layout">
-
         <aside class="menu">
-
             <nav class="navegacion">
 
-                <a href="./index.html">
+                <a href="{% url 'inicio' %}">
                     <ion-icon name="home-outline"></ion-icon>
                     <span>Inicio</span>
                 </a>
 
-                <a href="./publicar.html" class="activo">
+                <a href="{% url 'crear_libro' %}" class="activo">
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <span>Publicar libro</span>
                 </a>
 
-                <a href="./mis-libros.html">
+                <a href="{% url 'listar_libros' %}">
                     <ion-icon name="book-outline"></ion-icon>
                     <span>Mis libros</span>
                 </a>
 
-                <a href="./index.html#estadisticas">
+                <a href="{% url 'inicio' %}#estadisticas">
                     <ion-icon name="stats-chart-outline"></ion-icon>
                     <span>Estadísticas</span>
                 </a>
 
-                <a href="./index.html#configuracion">
+                <a href="{% url 'inicio' %}#configuracion">
                     <ion-icon name="settings-outline"></ion-icon>
                     <span>Configuración</span>
                 </a>
 
             </nav>
-
             <div class="frase">
                 <div></div>
                 <p>
                     “Las grandes historias también empiezan con una idea.”
                 </p>
             </div>
-
         </aside>
-
         <section class="contenido">
-
             <div class="publicar-layout">
-
                 <section class="panel-portada">
-
                     <label for="portada" class="zona-portada" id="zonaPortada">
-
-                        <input
-                            type="file"
-                            id="portada"
-                            accept="image/png,image/jpeg"
-                            hidden
-                        >
-
-                        <div class="contenido-portada" id="contenidoPortada">
-
+                        {{ form.portada }}
+                        <div class="contenido-portada" id="contenidoPortada"
+                             {% if libro.portada %}hidden{% endif %}>
                             <ion-icon
                                 name="images-outline"
                                 class="icono-imagen"
@@ -131,68 +115,53 @@
                                 <span>|</span>
                                 Tamaño recomendado: 1080 × 1600 · Máximo 5 MB
                             </small>
-
                         </div>
-
                         <img
-                            src=""
+                            {% if libro.portada %}src="{{ libro.portada.url }}"{% endif %}
                             alt="Vista previa de la portada"
                             id="vistaPortada"
-                            hidden
+                            {% if not libro.portada %}hidden{% endif %}
                         >
-
                     </label>
-
+                    {{ form.portada.errors }}
                 </section>
 
                 <section class="panel-formulario">
-
                     <div class="titulo-formulario">
-
                         <ion-icon name="create-outline"></ion-icon>
-
                         <div>
-                            <h2>Publica tu libro</h2>
-                            <p>Comparte tu historia con el mundo</p>
+                            <h2>{% if libro %}Edita tu libro{% else %}Publica tu libro{% endif %}</h2>
+                            <p>{% if libro %}Actualiza los datos de tu historia{% else %}Comparte tu historia con el mundo{% endif %}</p>
                         </div>
 
                     </div>
+                    <form id="formularioLibro" method="POST"
+                          action="{% if libro %}{% url 'editar_libro' libro.id %}{% else %}{% url 'crear_libro' %}{% endif %}"
+                          enctype="multipart/form-data"
+                          data-editar="{% if libro %}true{% endif %}">
 
-                    <form id="formularioLibro">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
 
                         <div class="campo">
 
-                            <label for="titulo">
+                            <label for="{{ form.titulo.id_for_label }}">
                                 Título del libro
                             </label>
-
-                            <input
-                                type="text"
-                                id="titulo"
-                                name="titulo"
-                                placeholder="Escribe el título de tu libro..."
-                                maxlength="120"
-                                required
-                            >
-
+                            {{ form.titulo }}
+                            {{ form.titulo.errors }}
                         </div>
 
                         <div class="campo campo-descripcion">
 
-                            <label for="descripcion">
+                            <label for="{{ form.descripcion.id_for_label }}">
                                 Descripción
                             </label>
-
-                            <textarea
-                                id="descripcion"
-                                name="descripcion"
-                                placeholder="Cuéntanos de qué trata tu libro..."
-                                maxlength="2000"
-                                required
-                            ></textarea>
+                            {{ form.descripcion }}
+                            {{ form.descripcion.errors }}
 
                             <span class="contador" id="contador">
-                                0/2000
+                                {{ form.descripcion.value|length|default:0 }}/2000
                             </span>
 
                         </div>
@@ -201,56 +170,28 @@
 
                             <div class="campo">
 
-                                <label for="categoria" class="label-icono">
+                                <label for="{{ form.categoria.id_for_label }}" class="label-icono">
                                     <ion-icon name="layers-outline"></ion-icon>
                                     Categoría
                                 </label>
-
-                                <select
-                                    id="categoria"
-                                    name="categoria"
-                                    required
-                                >
-                                    <option value="" disabled selected>
-                                        Selecciona una categoría
-                                    </option>
-
-                                    <option value="fantasia">Fantasía</option>
-                                    <option value="romance">Romance</option>
-                                    <option value="misterio">Misterio</option>
-                                    <option value="aventura">Aventura</option>
-                                    <option value="ciencia-ficcion">Ciencia ficción</option>
-                                    <option value="terror">Terror</option>
-                                    <option value="drama">Drama</option>
-                                    <option value="poesia">Poesía</option>
-                                    <option value="educacion">Educación</option>
-                                    <option value="otros">Otros</option>
-                                </select>
-
+                                {{ form.categoria }}
+                                {{ form.categoria.errors }}
                             </div>
 
                             <div class="campo">
 
-                                <label for="precio" class="label-icono label-precio">
+                                <label for="{{ form.precio.id_for_label }}" class="label-icono label-precio">
                                     <ion-icon name="server-outline"></ion-icon>
                                     Precio (opcional)
                                 </label>
 
                                 <div class="entrada-precio">
 
-                                    <input
-                                        type="number"
-                                        id="precio"
-                                        name="precio"
-                                        placeholder="Ej. 9500.00"
-                                        min="0"
-                                        step="0.01"
-                                    >
-
+                                    {{ form.precio }}
                                     <span>COP</span>
 
                                 </div>
-
+                                {{ form.precio.errors }}
                             </div>
 
                         </div>
@@ -259,7 +200,7 @@
 
                             <ion-icon name="paper-plane-outline"></ion-icon>
 
-                            <span>Publicar libro</span>
+                            <span>{% if libro %}Guardar cambios{% else %}Publicar libro{% endif %}</span>
 
                         </button>
 
@@ -277,20 +218,17 @@
             </div>
 
         </section>
-
     </main>
-
     <script
         type="module"
         src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js">
     </script>
-
     <script
         nomodule
         src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js">
     </script>
 
-    <script src="./js/publicar.js"></script>
+    <script src="{% static 'js/publicar.js' %}"></script>
 
 </body>
 </html>

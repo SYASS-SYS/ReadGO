@@ -79,19 +79,21 @@ zonaPortada.addEventListener("drop", function (evento) {
     const archivo = evento.dataTransfer.files[0];
 
     if (archivo) {
+        const archivos = new DataTransfer();
+        archivos.items.add(archivo);
+        inputPortada.files = archivos.files;
         mostrarPortada(archivo);
     }
 });
 
 // Contador de caracteres
+contador.textContent = `${descripcion.value.length}/2000`;
 descripcion.addEventListener("input", function () {
     contador.textContent = `${this.value.length}/2000`;
 });
 
 // Validar el formulario
 formulario.addEventListener("submit", function (evento) {
-    evento.preventDefault();
-
     const titulo = document.getElementById("titulo").value.trim();
     const textoDescripcion = descripcion.value.trim();
     const selectorCategoria = document.getElementById("categoria");
@@ -99,42 +101,24 @@ formulario.addEventListener("submit", function (evento) {
     const precioValor = document.getElementById("precio").value;
     const precio = precioValor === "" ? null : Number(precioValor);
 
-    if (!archivoPortada) {
-        mensaje.textContent = "Debes seleccionar la portada de tu libro.";
-        mensaje.className = "mensaje error";
-        return;
-    }
-
     if (!titulo || !textoDescripcion || !categoria) {
+        evento.preventDefault();
         mensaje.textContent = "Completa todos los campos obligatorios.";
         mensaje.className = "mensaje error";
         return;
     }
 
-    if (precio !== null && (!Number.isFinite(precio) || precio < 0)) {
-        mensaje.textContent = "El precio debe ser un número válido mayor o igual a cero.";
+    if (!archivoPortada && formulario.dataset.editar !== "true") {
+        evento.preventDefault();
+        mensaje.textContent = "Debes seleccionar la portada de tu libro.";
         mensaje.className = "mensaje error";
         return;
     }
 
-    mensaje.textContent = "Publicando tu libro...";
-    mensaje.className = "mensaje";
-
-    import("./almacen-libros.js")
-        .then(({ guardarLibro }) => guardarLibro({
-            titulo,
-            descripcion: textoDescripcion,
-            categoria: selectorCategoria.selectedOptions[0].textContent.trim(),
-            precio,
-            portada: archivoPortada,
-            fecha: Date.now()
-        }))
-        .then(() => {
-            window.location.href = "./mis-libros.html?publicado=1";
-        })
-        .catch((error) => {
-            console.error("No se pudo guardar el libro.", error);
-            mensaje.textContent = "No se pudo guardar el libro en este navegador. Inténtalo de nuevo.";
-            mensaje.className = "mensaje error";
-        });
+    if (precio !== null && (!Number.isFinite(precio) || precio < 0)) {
+        evento.preventDefault();
+        mensaje.textContent = "El precio debe ser un número válido mayor o igual a cero.";
+        mensaje.className = "mensaje error";
+        return;
+    }
 });
