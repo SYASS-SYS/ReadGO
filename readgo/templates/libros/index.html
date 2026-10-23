@@ -1,11 +1,12 @@
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReadGO</title>
-    <link rel="stylesheet" href="./css/styleI.css">
+    <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
 </head>
 
 <body>
@@ -51,12 +52,12 @@
                     <span>Inicio</span>
                 </a>
 
-                <a href="./publicar.html">
+                <a href="{% url 'crear_libro' %}">
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <span>Publicar libro</span>
                 </a>
 
-                <a href="./mis-libros.html">
+                <a href="{% url 'listar_libros' %}">
                     <ion-icon name="book-outline"></ion-icon>
                     <span>Mis libros</span>
                 </a>
@@ -101,7 +102,7 @@
                             de todo el mundo.
                         </p>
 
-                        <a href="./publicar.html" class="boton">
+                        <a href="{% url 'crear_libro' %}" class="boton">
                             <ion-icon name="add-circle-outline"></ion-icon>
                             Publicar libro
                         </a>
@@ -297,7 +298,7 @@
                         Publica tu libro y forma parte de nuestra comunidad.
                     </p>
 
-                    <a href="publicar.html" class="boton boton-ancho">
+                    <a href="{% url 'crear_libro' %}" class="boton boton-ancho">
                         Publicar ahora
                         <ion-icon name="arrow-forward-outline"></ion-icon>
                     </a>
@@ -319,7 +320,7 @@
         src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
 
 
-    <script src="./js/index.js"></script>
+    <script src="{% static 'js/index.js' %}"></script>
 
 </body>
 </html>
