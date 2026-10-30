@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis libros | ReadGO</title>
+    <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleM.css' %}">
+</head>
+
+<body class="mis-libros-page">
+    <header class="header">
+        <a href="{% url 'inicio' %}" class="logo">
+            <ion-icon name="book-outline"></ion-icon>
+            <div class="logo-texto">
+                <h1>Read<span>GO</span></h1>
+                <p>Tus historias, en libros.</p>
+            </div>
+        </a>
+
+        <div class="busqueda">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="search" id="buscador" placeholder="Buscar en mis libros..." aria-label="Buscar en mis libros">
+        </div>
+
+        <div class="usuario">
+            <button class="icono-header" aria-label="Notificaciones">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <span class="notificacion"></span>
+            </button>
+            <button class="perfil" aria-label="Perfil de usuario">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=120&q=80"
+                    alt="Avatar del usuario">
+            </button>
+            <button class="icono-header" aria-label="Abrir perfil">
+                <ion-icon name="chevron-down-outline"></ion-icon>
+            </button>
+        </div>
+    </header>
+
+    <main class="layout">
+        <aside class="menu">
+            <nav class="navegacion">
+                <a href="{% url 'inicio' %}">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </a>
+                <a href="{% url 'crear_libro' %}">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <span>Publicar libro</span>
+                </a>
+                <a href="{% url 'listar_libros' %}" class="activo" aria-current="page">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span>Mis libros</span>
+                </a>
+                <a href="{% url 'inicio' %}#estadisticas">
+                    <ion-icon name="stats-chart-outline"></ion-icon>
+                    <span>Estadísticas</span>
+                </a>
+                
+            </nav>
+
+            <div class="frase">
+                <p>“Las grandes historias también empiezan con una idea.”</p>
+                <div></div>
+            </div>
+        </aside>
+
+        <section class="contenido">
+            <div class="columna-principal">
+                <section class="mis-libros-hero">
+                    <span class="etiqueta">TU BIBLIOTECA DE AUTOR</span>
+                    <h2>Mis <span>libros</span></h2>
+                    <p>Administra y encuentra las historias que has compartido.</p>
+                    <a href="{% url 'crear_libro' %}" class="boton">
+                        <ion-icon name="add-circle-outline"></ion-icon>
+                        Publicar libro
+                    </a>
+                </section>
+                <section class="seccion">
+                    <div class="seccion-titulo">
+                        <h2>
+                            <ion-icon name="library-outline"></ion-icon>
+                            Libros publicados
+                        </h2>
+                        <span class="cantidad-libros">
+                            {{ libros|length }} libro{{ libros|length|pluralize:"s" }}
+                        </span>
+                    </div>
+
+                        <div class="libros-grid mis-libros-grid">
+                            {% for libro in libros %}
+                                <article class="libro">
+                                    <a class="libro-enlace" href="{% url 'detalle_libro' libro.id %}">
+                                        <div class="libro-portada mis-libro-portada">
+                                            {% if libro.portada %}
+                                                <img src="{{ libro.portada.url }}" alt="Portada de {{ libro.titulo }}">
+                                            {% endif %}
+                                            <span class="genero">{{ libro.get_categoria_display }}</span>
+                                        </div>
+                                        <div class="libro-info">
+                                            <h3>{{ libro.titulo }}</h3>
+                                            <p>
+                                                {% if libro.precio is None %}
+                                                    Gratis
+                                                {% else %}
+                                                    ${{ libro.precio }} COP
+                                                {% endif %}
+                                            </p>
+                                            <p class="mis-libro-descripcion">{{ libro.descripcion }}</p>
+                                        </div>
+                                    </a>
+                                    <div class="acciones-libro">
+                                        <a class="boton-accion" href="{% url 'detalle_libro' libro.id %}">
+                                            Ver detalle
+                                        </a>
+                                        <a class="boton-accion" href="{% url 'editar_libro' libro.id %}">
+                                            Editar
+                                        </a>
+                                        <form method="post" action="{% url 'eliminar_libro' libro.id %}"
+                                              onsubmit="return confirm('¿Seguro que deseas eliminar este libro?');">
+                                            {% csrf_token %}
+                                            <button class="boton-accion boton-eliminar" type="submit">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </article>
+                            {% empty %}
+                                <div class="estado-libros">
+                                    Aún no has publicado libros.
+                                    <a href="{% url 'crear_libro' %}">Publica tu primera historia</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <p class="sin-resultados" id="sinResultados" hidden>
+                            No se encontraron libros con esa búsqueda.
+                        </p>
+                    </section>
+            </div>
+
+            <aside class="columna-derecha">
+                <section class="panel mis-libros-panel">
+                    <h2>Tu biblioteca</h2>
+                    <p class="texto-secundario">Tus publicaciones quedan guardadas en tu biblioteca.</p>
+                    <div class="resumen-libros">
+                        <ion-icon name="book-outline"></ion-icon>
+                        <span>Libros publicados</span>
+                        <strong>{{ libros|length }}</strong>
+                    </div>
+                    <a href="{% url 'crear_libro' %}" class="boton boton-ancho">
+                        <ion-icon name="create-outline"></ion-icon>
+                        Crear una historia
+                    </a>
+                </section>
+            </aside>
+        </section>
+    </main>
+
+    {% include "libros/includes/footer.html" %}
+
+    <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+    <script src="{% static 'js/mis-libros.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Administración de ReadGO{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">ReadGO</a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    :root {
+        --readgo-bg: #05070d;
+        --readgo-panel: #0d1420;
+        --readgo-panel-2: #121d2c;
+        --readgo-purple: #5ba9ff;
+        --readgo-purple-strong: #2d7fe8;
+        --readgo-purple-soft: #9fd0ff;
+        --readgo-text: #edf7ff;
+        --readgo-muted: #c3d7eb;
+        --readgo-border: #244765;
+        --readgo-accent: #79c2ff;
+    }
+
+    body {
+        background: radial-gradient(circle at top left, rgba(91, 169, 255, 0.18), transparent 25%),
+                    radial-gradient(circle at top right, rgba(45, 127, 232, 0.18), transparent 30%),
+                    var(--readgo-bg);
+        color: var(--readgo-text);
+    }
+
+    #header {
+        background: linear-gradient(180deg, #134567, #0d2d42);
+        border-bottom: 1px solid var(--readgo-border);
+        color: var(--readgo-text);
+    }
+
+    #branding h1,
+    #branding h1 a {
+        color: var(--readgo-text) !important;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: none;
+    }
+
+    #site-name {
+        font-size: 2rem;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    #site-name a {
+        color: var(--readgo-text) !important;
+        text-decoration: none;
+    }
+
+    div.breadcrumbs,
+    .module,
+    .dashboard .module,
+    .selector,
+    .calendarbox,
+    .clockbox,
+    .popup,
+    .form-row,
+    .submit-row,
+    .object-tools,
+    .paginator,
+    #content {
+        background: var(--readgo-panel);
+        border: 1px solid var(--readgo-border);
+        color: var(--readgo-text);
+    }
+
+    .module h2,
+    .module caption,
+    .dashboard .module h2,
+    .section-header,
+    .app-list label,
+    .app-list .app-name,
+    .app-list a,
+    .model td a,
+    .paginator a,
+    .paginator .this-page,
+    .breadcrumbs a,
+    .breadcrumbs span,
+    .form-row label,
+    .help,
+    #nav-sidebar a,
+    #changelist-form a,
+    .list-table td,
+    .list-table th,
+    .object-tools a,
+    .related-widget-wrapper {
+        color: var(--readgo-text);
+    }
+
+    .module caption,
+    .module h2,
+    .dashboard .module h2 {
+        background: linear-gradient(180deg, rgba(132, 56, 255, 0.28), rgba(84, 37, 168, 0.2));
+        color: var(--readgo-text);
+        border-bottom: 1px solid var(--readgo-border);
+    }
+
+    .module,
+    .dashboard .module {
+        box-shadow: 0 14px 28px rgba(14, 12, 28, 0.22);
+    }
+
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: linear-gradient(180deg, var(--readgo-purple), var(--readgo-purple-strong));
+        border: 1px solid rgba(159, 208, 255, 0.5);
+        color: var(--readgo-text) !important;
+        border-radius: 8px;
+        font-weight: 600;
+        box-shadow: none;
+    }
+
+    .button.default,
+    .submit-row .default {
+        background: linear-gradient(180deg, #7fc3ff, #2f7ae0);
+    }
+
+    .button:hover,
+    a.button:hover,
+    input[type=submit]:hover {
+        background: linear-gradient(180deg, #8ecbff, #347fe7);
+    }
+
+    .selector .selector-available h2,
+    .selector .selector-chosen h2,
+    .tabular td,
+    .tabular th,
+    .list-table td,
+    .list-table th,
+    #result_list td,
+    #result_list th {
+        background: var(--readgo-panel-2);
+        border-color: var(--readgo-border);
+        color: var(--readgo-text);
+    }
+
+    .list-table thead th,
+    #result_list thead th {
+        background: #1a1830;
+        color: var(--readgo-purple-soft);
+    }
+
+    .fieldBox, .results, .help, .form-row, .module,
+    .delete-confirmation form {
+        background: transparent;
+    }
+
+    a,
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+        color: var(--readgo-accent);
+    }
+
+    #nav-sidebar,
+    #changelist-filter {
+        background: rgba(13, 16, 32, 0.9);
+        border: 1px solid var(--readgo-border);
+    }
+
+    #user-tools a {
+        color: var(--readgo-text);
+    }
+
+    .breadcrumbs {
+        background: rgba(18, 21, 35, 0.9);
+        border-bottom: 1px solid var(--readgo-border);
+        color: var(--readgo-muted);
+    }
+
+    .errornote,
+    .help-text,
+    .inline-related h3,
+    .inline-related .module,
+    .selector h2 {
+        color: var(--readgo-text);
+    }
+
+    .errornote {
+        background: rgba(125, 25, 41, 0.35);
+        border: 1px solid rgba(255, 90, 120, 0.25);
+    }
+
+    input, select, textarea {
+        background: #141a2c;
+        border: 1px solid var(--readgo-border);
+        color: var(--readgo-text);
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+        border-color: var(--readgo-purple-soft);
+        box-shadow: 0 0 0 2px rgba(185, 155, 255, 0.2);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ReadGO</title>
+
+    <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleP.css' %}">
+</head>
+
+<body class="publicar-page">
+    <header class="header">
+
+        <a href="{% url 'inicio' %}" class="logo">
+            <ion-icon name="book-outline"></ion-icon>
+
+            <div class="logo-texto">
+                <h1>Read<span>GO</span></h1>
+                <p>Tus historias, en libros.</p>
+            </div>
+        </a>
+
+        <div class="busqueda">
+            <ion-icon name="search-outline"></ion-icon>
+
+            <input
+                type="search"
+                id="buscador"
+                placeholder="Buscar libros, autores, géneros..."
+            >
+        </div>
+
+        <div class="usuario">
+
+            <button class="icono-header" aria-label="Notificaciones">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <span class="notificacion"></span>
+            </button>
+
+            <button class="perfil" aria-label="Perfil de usuario">
+                <img
+                    src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=120&q=80"
+                    alt="Avatar del usuario"
+                >
+            </button>
+
+            <button class="icono-header" aria-label="Abrir perfil">
+                <ion-icon name="chevron-down-outline"></ion-icon>
+            </button>
+
+        </div>
+
+    </header>
+    <main class="layout">
+        <aside class="menu">
+            <nav class="navegacion">
+
+                <a href="{% url 'inicio' %}">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </a>
+
+                <a href="{% url 'crear_libro' %}" class="activo">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <span>Publicar libro</span>
+                </a>
+
+                <a href="{% url 'listar_libros' %}">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span>Mis libros</span>
+                </a>
+
+                <a href="{% url 'inicio' %}#estadisticas">
+                    <ion-icon name="stats-chart-outline"></ion-icon>
+                    <span>Estadísticas</span>
+                </a>
+
+                
+
+            </nav>
+            <div class="frase">
+                <div></div>
+                <p>
+                    “Las grandes historias también empiezan con una idea.”
+                </p>
+            </div>
+        </aside>
+        <section class="contenido">
+            <div class="publicar-layout">
+                <section class="panel-portada">
+                    <label for="portada" class="zona-portada" id="zonaPortada">
+                        {{ form.portada }}
+                        <div class="contenido-portada" id="contenidoPortada"
+                             {% if libro.portada %}hidden{% endif %}>
+                            <ion-icon
+                                name="images-outline"
+                                class="icono-imagen"
+                            ></ion-icon>
+
+                            <h2>Sube la portada de tu libro</h2>
+
+                            <p>
+                                Arrastra una imagen o haz clic para seleccionar
+                            </p>
+
+                            <small>
+                                Formatos permitidos: JPG, PNG
+                                <span>|</span>
+                                Tamaño recomendado: 1080 × 1600 · Máximo 5 MB
+                            </small>
+                        </div>
+                        <img
+                            {% if libro.portada %}src="{{ libro.portada.url }}"{% endif %}
+                            alt="Vista previa de la portada"
+                            id="vistaPortada"
+                            {% if not libro.portada %}hidden{% endif %}
+                        >
+                    </label>
+                    {{ form.portada.errors }}
+                </section>
+
+                <section class="panel-formulario">
+                    <div class="titulo-formulario">
+                        <ion-icon name="create-outline"></ion-icon>
+                        <div>
+                            <h2>{% if libro %}Edita tu libro{% else %}Publica tu libro{% endif %}</h2>
+                            <p>{% if libro %}Actualiza los datos de tu historia{% else %}Comparte tu historia con el mundo{% endif %}</p>
+                        </div>
+
+                    </div>
+                    <form id="formularioLibro" method="POST"
+                          action="{% if libro %}{% url 'editar_libro' libro.id %}{% else %}{% url 'crear_libro' %}{% endif %}"
+                          enctype="multipart/form-data"
+                          data-editar="{% if libro %}true{% endif %}">
+
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+
+                        <div class="campo">
+
+                            <label for="{{ form.titulo.id_for_label }}">
+                                Título del libro
+                            </label>
+                            {{ form.titulo }}
+                            {{ form.titulo.errors }}
+                        </div>
+
+                        <div class="campo campo-descripcion">
+
+                            <label for="{{ form.descripcion.id_for_label }}">
+                                Sinopsis o historia del libro
+                            </label>
+                            {{ form.descripcion }}
+                            {{ form.descripcion.errors }}
+
+                            <span class="contador" id="contador">
+                                {{ form.descripcion.value|length|default:0 }}/20000
+                            </span>
+
+                        </div>
+
+                        <div class="campos-dobles">
+
+                            <div class="campo">
+
+                                <label for="{{ form.categoria.id_for_label }}" class="label-icono">
+                                    <ion-icon name="layers-outline"></ion-icon>
+                                    Categoría
+                                </label>
+                                {{ form.categoria }}
+                                {{ form.categoria.errors }}
+                            </div>
+
+                            
+
+                        </div>
+
+                        <button type="submit" class="boton-publicar">
+
+                            <ion-icon name="paper-plane-outline"></ion-icon>
+
+                            <span>{% if libro %}Guardar cambios{% else %}Publicar libro{% endif %}</span>
+
+                        </button>
+
+                        <p
+                            class="mensaje"
+                            id="mensaje"
+                            role="status"
+                            aria-live="polite"
+                        ></p>
+
+                    </form>
+
+                </section>
+
+            </div>
+
+        </section>
+    </main>
+    {% include "libros/includes/footer.html" %}
+    <script
+        type="module"
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js">
+    </script>
+    <script
+        nomodule
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js">
+    </script>
+
+    <script src="{% static 'js/publicar.js' %}"></script>
+
+</body>
+</html>

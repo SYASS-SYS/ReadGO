@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear cuenta | ReadGO</title>
+  
+  <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
+  <link rel="stylesheet" href="{% static 'css/acceso.css' %}">
+</head>
+<body class="acceso-page">
+
+  <main class="acceso-card">
+    <a href="{% url 'inicio' %}" class="logo acceso-logo">
+      <ion-icon name="book-outline"></ion-icon>
+      <div class="logo-texto">
+        <h1>Read<span>GO</span></h1>
+        <p>Tus historias, en libros.</p>
+      </div>
+    </a>
+
+    <span class="etiqueta">ÚNETE A LA COMUNIDAD</span>
+    <h2>Crea tu <span>cuenta</span></h2>
+    <p class="acceso-descripcion">Regístrate para publicar y administrar tus libros.</p>
+
+    <form method="post" class="acceso-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="acceso-error">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+
+        {% if field.help_text %}
+          <small class="ayuda">{{ field.help_text|safe }}</small>
+        {% endif %}
+
+        {% for error in field.errors %}
+          <small class="acceso-error">{{ error }}</small>
+        {% endfor %}
+      {% endfor %}
+
+      <button class="boton" type="submit">Crear cuenta</button>
+    </form>
+
+    <p class="acceso-pie">
+      ¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a>
+    </p>
+    
+    <a class="volver" href="{% url 'inicio' %}">← Volver a ReadGO</a>
+  </main>
+
+  <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+
+  {% include "libros/includes/footer.html" %}
+</body>
+</html>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.acceso-form');
+    const emailInput = document.getElementById('id_email');
+    if (!form || !emailInput) return;
+
+    const validarEmail = () => {
+      const valor = emailInput.value.trim();
+      const valido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+      emailInput.setCustomValidity(valido || valor === '' ? '' : 'Ingresa un correo electrónico válido.');
+      return valido;
+    };
+
+    emailInput.addEventListener('input', validarEmail);
+    form.addEventListener('submit', function (event) {
+      if (!validarEmail()) {
+        event.preventDefault();
+        emailInput.focus();
+      }
+    });
+  });
+</script>
+</body></html>

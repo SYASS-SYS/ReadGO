@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ libro.titulo }} | ReadGO</title>
+    <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleM.css' %}">
+</head>
+<body class="mis-libros-page">
+    <header class="header">
+        <a href="{% url 'inicio' %}" class="logo">
+            <ion-icon name="book-outline"></ion-icon>
+            <div class="logo-texto">
+                <h1>Read<span>GO</span></h1>
+                <p>Tus historias, en libros.</p>
+            </div>
+        </a>
+        <div class="usuario">
+            {% if user.is_authenticated %}<a class="boton" href="{% url 'listar_libros' %}">Mis libros</a>{% else %}<a class="boton" href="{% url 'login' %}">Iniciar sesión</a>{% endif %}
+        </div>
+    </header>
+
+    <main class="layout">
+        <section class="contenido detalle-contenido">
+            <article class="detalle-libro">
+                <div class="detalle-portada">
+                    {% if libro.portada %}
+                        <img src="{{ libro.portada.url }}" alt="Portada de {{ libro.titulo }}">
+                    {% else %}
+                        <div class="detalle-portada-vacia">Sin portada</div>
+                    {% endif %}
+                </div>
+                <div class="detalle-informacion">
+                    <span class="etiqueta">{{ libro.get_categoria_display }}</span>
+                    <h2>{{ libro.titulo }}</h2>
+                    <p class="detalle-precio">
+                        {% if libro.precio is None %}
+                            Gratis
+                        {% else %}
+                            ${{ libro.precio }} COP
+                        {% endif %}
+                    </p>
+                    <h3>Historia del libro</h3>
+                    <p class="detalle-descripcion">{{ libro.descripcion|linebreaksbr }}</p>
+                    <div class="detalle-acciones">
+                        {% if user.is_authenticated and libro.usuario_id == user.id and not user.is_staff and not user.is_superuser %}<a class="boton" href="{% url 'editar_libro' libro.id %}">Editar libro</a>
+                        <form method="post" action="{% url 'eliminar_libro' libro.id %}"
+                              onsubmit="return confirm('¿Seguro que deseas eliminar este libro? Esta acción no se puede deshacer.');">
+                            {% csrf_token %}
+                            <button class="boton-eliminar-detalle" type="submit">Eliminar libro</button>
+                        </form>{% endif %}
+                        {% if user.is_staff or user.is_superuser %}<a class="detalle-volver" href="{% url 'panel_admin' %}">Volver a administración</a>{% elif user.is_authenticated and libro.usuario_id == user.id %}<a class="detalle-volver" href="{% url 'listar_libros' %}">Volver a mis libros</a>{% else %}<a class="detalle-volver" href="{% url 'inicio' %}">← Explorar más libros</a>{% endif %}
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+    {% include "libros/includes/footer.html" %}
+    <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+</body>
+</html>

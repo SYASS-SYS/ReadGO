@@ -1,0 +1,33 @@
+{% load static %}
+<footer class="site-footer" id="configuracion">
+  <div class="site-footer-inner">
+    <div class="footer-columna footer-presentacion">
+      <a href="{% url 'inicio' %}" class="footer-brand" aria-label="ReadGO, ir al inicio">
+        <span class="footer-brand-icon"><ion-icon name="book-outline"></ion-icon></span>
+        <span><strong>Read<span>GO</span></strong><small>Tus historias, en libros.</small></span>
+      </a>
+      <p class="footer-message">Un lugar para descubrir, compartir y vivir nuevas historias. Lee, publica y encuentra tu próxima aventura.</p>
+    </div>
+
+    <div class="footer-columna">
+      <h3>Explora</h3>
+      <nav class="footer-links" aria-label="Enlaces de navegación">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}<a href="{% url 'crear_libro' %}">Publicar un libro</a>{% endif %}
+        {% if user.is_authenticated %}<a href="{% url 'listar_libros' %}">Mis libros</a>{% else %}<a href="{% url 'login' %}">Iniciar sesión</a><a href="{% url 'registro' %}">Crear cuenta</a>{% endif %}
+      </nav>
+    </div>
+
+    <div class="footer-columna footer-contacto">
+      <h3>Contacto</h3>
+      <a href="tel:+5732166647921"><ion-icon name="call-outline" aria-hidden="true"></ion-icon><span>321 666 47921</span></a>
+      <a href="https://wa.me/5732166647921" target="_blank" rel="noopener noreferrer"><ion-icon name="logo-whatsapp" aria-hidden="true"></ion-icon><span>Escríbenos por WhatsApp</span></a>
+      <p><ion-icon name="book-outline" aria-hidden="true"></ion-icon><span>ReadGO · Comunidad de lectores</span></p>
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <span>© {% now "Y" %} ReadGO. Todos los derechos reservados.</span>
+    <span>Hecho con cariño para quienes aman leer.</span>
+    <a href="{% url 'inicio' %}">Volver al inicio ↑</a>
+  </div>
+</footer>

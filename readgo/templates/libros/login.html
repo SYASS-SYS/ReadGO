@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d17">
+  <title>Iniciar sesión | ReadGO</title>
+  <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
+  <link rel="stylesheet" href="{% static 'css/acceso.css' %}">
+</head>
+<body class="acceso-page">
+  <main class="acceso-card">
+    <a href="{% url 'inicio' %}" class="logo acceso-logo" aria-label="ReadGO, ir al inicio">
+      <ion-icon name="book-outline" aria-hidden="true"></ion-icon>
+      <div class="logo-texto"><h1>Read<span>GO</span></h1><p>Tus historias, en libros.</p></div>
+    </a>
+
+    <div class="acceso-contenido">
+      <span class="etiqueta">QUÉ BUENO TENERTE AQUÍ</span>
+      <h2>Inicia <span>sesión</span></h2>
+      <p class="acceso-descripcion">Entra a tu espacio de lectura y publicación.</p>
+
+      {% if error %}<p class="acceso-error" role="alert">{{ error }}</p>{% endif %}
+
+      <form method="post" class="acceso-form">
+        {% csrf_token %}
+        <label for="username">Usuario</label>
+        <input id="username" name="username" autocomplete="username" placeholder="Escribe tu usuario" required autofocus>
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" name="password" autocomplete="current-password" placeholder="Escribe tu contraseña" required>
+        <button class="boton" type="submit"><ion-icon name="log-in-outline" aria-hidden="true"></ion-icon> Iniciar sesión</button>
+      </form>
+
+      <p class="acceso-pie">¿Todavía no tienes cuenta? <a href="{% url 'registro' %}">Crear cuenta</a></p>
+      <a class="volver" href="{% url 'inicio' %}"><ion-icon name="arrow-back-outline" aria-hidden="true"></ion-icon> Volver a ReadGO</a>
+    </div>
+  </main>
+
+  {% include "libros/includes/footer.html" %}
+  <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadGO</title>
+    <link rel="stylesheet" href="{% static 'css/styleI.css' %}">
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">
+            <ion-icon name="book-outline"></ion-icon>
+            <div class="logo-texto">
+                <h1>Read<span>GO</span></h1>
+                <p>Tus historias, en libros.</p>
+            </div>
+        </a>
+
+        <div class="busqueda">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="search" id="buscador"
+                placeholder="Buscar libros, autores, géneros...">
+        </div>
+
+        <div class="usuario">
+            <button class="icono-header" aria-label="Notificaciones">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <span class="notificacion"></span>
+            </button>
+
+            <button class="perfil" aria-label="Perfil de usuario">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=120&q=80"
+                    alt="Avatar del usuario">
+            </button>
+
+            <button class="icono-header" aria-label="Abrir perfil">
+                <ion-icon name="chevron-down-outline"></ion-icon>
+            </button>
+        </div>
+    </header>
+
+    <main class="layout">
+
+        <aside class="menu">
+            <nav class="navegacion">
+                <a href="#" class="activo">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </a>
+
+                {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}
+                <a href="{% url 'crear_libro' %}">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <span>Publicar libro</span>
+                </a>
+                {% endif %}
+                {% if user.is_authenticated and user.is_staff or user.is_superuser %}
+                <a href="{% url 'panel_admin' %}"><ion-icon name="shield-checkmark-outline"></ion-icon><span>Panel de administración</span></a>
+                {% endif %}
+
+                <a href="{% url 'listar_libros' %}">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span>Mis libros</span>
+                </a>
+
+                <a href="#estadisticas">
+                    <ion-icon name="stats-chart-outline"></ion-icon>
+                    <span>Estadísticas</span>
+                </a>
+            </nav>
+
+            <div class="frase">
+                <p>“Las grandes historias también empiezan con una idea.”</p>
+                <div></div>
+            </div>
+        </aside>
+
+        <section class="contenido">
+
+            <div class="columna-principal">
+
+                <section class="hero">
+                    <div class="hero-fondo"></div>
+
+                    <div class="hero-contenido">
+                        <span class="etiqueta">
+                            ESCRIBE · PUBLICA · COMPARTE
+                        </span>
+
+                        <h2>
+                            Tu historia<br>
+                            merece <span>ser leída</span>
+                        </h2>
+
+                        <p>
+                            En ReadGO puedes publicar tus libros,
+                            compartir tus ideas y llegar a lectores
+                            de todo el mundo.
+                        </p>
+
+                        {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}
+                        <a href="{% url 'crear_libro' %}" class="boton"><ion-icon name="add-circle-outline"></ion-icon>Publicar libro</a>
+                        {% elif not user.is_authenticated %}<a href="{% url 'login' %}" class="boton">Iniciar sesión</a>{% endif %}
+                    </div>
+
+                    <div class="hero-puntos">
+                        <span class="seleccionado"></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </section>
+
+                <section class="seccion" id="destacados">
+                    <div class="seccion-titulo">
+                        <h2>
+                            <ion-icon name="star-outline"></ion-icon>
+                            Libros destacados
+                        </h2>
+
+                        <a href="#lanzamientos">
+                            Ver todos
+                            <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </a>
+                    </div>
+
+                    <div class="libros-grid" id="listaLibros">
+                        {% if destacados %}
+                            {% for libro in destacados %}
+                            <article class="libro" data-busqueda="{{ libro.titulo|lower }} {{ libro.get_categoria_display|lower }}">
+                                <a class="libro-enlace" href="{% url 'detalle_libro' libro.id %}">
+                                    <div class="libro-portada {{ libro.categoria }}">
+                                        {% if libro.portada %}<img src="{{ libro.portada.url }}" alt="Portada de {{ libro.titulo }}">{% endif %}
+                                        <span class="genero">{{ libro.get_categoria_display }}</span>
+                                    </div>
+                                    <div class="libro-info">
+                                        <h3>{{ libro.titulo }}</h3>
+                                        <p>{% if libro.usuario %}{{ libro.usuario.username }}{% else %}ReadGO{% endif %}</p>
+                                        <div class="libro-datos">
+                                            <span><ion-icon name="star-outline"></ion-icon> Destacado</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                            {% endfor %}
+                        {% else %}
+                            <div class="lanzamiento vacio destacado-vacio" style="background: linear-gradient(135deg, #1d2a42, #442166); width: 100%; max-width: 100%; height: 180px; flex: 1 1 100%;">
+                                <span>Aún no hay libros destacados</span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <p class="sin-resultados" id="sinResultados" hidden>
+                        No se encontraron libros con esa búsqueda.
+                    </p>
+                </section>
+
+                <section class="seccion lanzamientos" id="lanzamientos">
+                    <div class="seccion-titulo">
+                        <h2>
+                            <ion-icon name="calendar-outline"></ion-icon>
+                            Nuevos lanzamientos
+                        </h2>
+
+                        <div class="controles">
+                            <button id="anterior" aria-label="Libros anteriores">
+                                <ion-icon name="chevron-back-outline"></ion-icon>
+                            </button>
+                            <button id="siguiente" aria-label="Más libros">
+                                <ion-icon name="chevron-forward-outline"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lanzamientos-lista" id="carrusel">
+                        {% if nuevos_libros %}
+                            {% for libro in nuevos_libros %}
+                                <a href="{% url 'detalle_libro' libro.id %}" class="lanzamiento" title="{{ libro.titulo }}"
+                                   {% if libro.portada %}style="background-image: url('{{ libro.portada.url }}');"{% else %}style="background: linear-gradient(135deg, #1d2a42, #442166);"{% endif %}>
+                                    <span>{{ libro.titulo }}</span>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="lanzamiento vacio" style="background: linear-gradient(135deg, #1d2a42, #442166);">
+                                <span>Aún no hay lanzamientos</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="columna-derecha">
+
+                <section class="panel bienvenida">
+                    <h2>¡Hola!</h2>
+                    <p class="texto-secundario">Bienvenido de nuevo</p>
+
+                    <a href="#configuracion" class="usuario-perfil">
+                        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=160&q=80"
+                             alt="Avatar de usuario">
+
+                        <strong>{% if user.is_authenticated %}{{ user.username }}{% else %}Invitado{% endif %}</strong>
+
+                        <ion-icon name="chevron-forward-outline"></ion-icon>
+                    </a>
+
+                    {% if user.is_authenticated and user.is_staff or user.is_superuser %}<a href="{% url 'panel_admin' %}" class="mi-cuenta"><ion-icon name="shield-checkmark-outline"></ion-icon><span>Administración</span><ion-icon name="chevron-forward-outline"></ion-icon></a>{% elif user.is_authenticated %}<a href="{% url 'listar_libros' %}" class="mi-cuenta"><ion-icon name="book-outline"></ion-icon><span>Mi cuenta</span><ion-icon name="chevron-forward-outline"></ion-icon></a>{% else %}<a href="{% url 'login' %}" class="mi-cuenta"><ion-icon name="log-in-outline"></ion-icon><span>Iniciar sesión</span><ion-icon name="chevron-forward-outline"></ion-icon></a>{% endif %}
+                    {% if user.is_authenticated %}<form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="boton boton-ancho" type="submit">Cerrar sesión</button></form>{% else %}<a href="{% url 'registro' %}" class="boton boton-ancho">Crear cuenta</a>{% endif %}
+                </section>
+
+                <section class="panel estadisticas" id="estadisticas">
+                    <h2>
+                        <ion-icon name="analytics-outline"></ion-icon>
+                        Tus estadísticas
+                    </h2>
+
+                    <div class="estadistica">
+                        <ion-icon name="book-outline"></ion-icon>
+                        <span>Libros publicados</span>
+                        <strong>0</strong>
+                    </div>
+
+                    <div class="estadistica">
+                        <ion-icon name="people-outline"></ion-icon>
+                        <span>Lectores</span>
+                        <strong>0</strong>
+                    </div>
+
+                    <div class="estadistica">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <span>Seguidores</span>
+                        <strong>0</strong>
+                    </div>
+
+                    <div class="estadistica">
+                        <ion-icon name="eye-outline"></ion-icon>
+                        <span>Total de vistas</span>
+                        <strong>0</strong>
+                    </div>
+                </section>
+
+                {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}<section class="panel publicar-panel" id="publicar">
+                    <ion-icon class="icono-publicar" name="book-outline"></ion-icon>
+
+                    <h2>¿Listo para compartir tu historia?</h2>
+
+                    <p>
+                        Publica tu libro y forma parte de nuestra comunidad.
+                    </p>
+
+                    <a href="{% url 'crear_libro' %}" class="boton boton-ancho">
+                        Publicar ahora
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                </section>{% endif %}
+
+            </aside>
+
+        </section>
+    </main>
+
+    {% include "libros/includes/footer.html" %}
+
+    <script type="module"
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+
+    <script nomodule
+        src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
+
+
+    <script src="{% static 'js/index.js' %}"></script>
+
+</body>
+</html>
